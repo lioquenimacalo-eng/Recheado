@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Viewport obrigatório (com safe-area) -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+<!-- PWA / Add to Home Screen (iOS) -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="MinhaApp" />
+
+<!-- Tema / cor da status bar -->
+<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+
+<!-- Ícones para iOS (obrigatórios) -->
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png" />
+<link rel="apple-touch-icon" sizes="167x167" href="/icons/apple-touch-icon-167.png" />
+
+<!-- Splash screens (opcional, mas melhora a experiência) -->
+<link rel="apple-touch-startup-image" href="/icons/splash-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+<link rel="apple-touch-startup-image" href="/icons/splash-1668x2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+<link rel="apple-touch-startup-image" href="/icons/splash-1536x2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+<link rel="apple-touch-startup-image" href="/icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+<link rel="apple-touch-startup-image" href="/icons/splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+<link rel="apple-touch-startup-image" href="/icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+<link rel="apple-touch-startup-image" href="/icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+
+<!-- Manifest (continua útil para Chrome/Android e para o Lighthouse) -->
+<link rel="manifest" href="/manifest.webmanifest" />
+    <title>Recheado</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
