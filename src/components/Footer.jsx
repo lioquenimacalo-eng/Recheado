@@ -48,7 +48,7 @@ function Footer() {
 
         <p className="flex items-center gap-2 text-sm my-1.5">
           <Mail size={16} className="text-amber-500" />
-          geral@grupoyoung.ao
+      abelteixeira2004@gmail.com
         </p>
 
         <p className="flex items-center gap-2 text-sm my-1.5">

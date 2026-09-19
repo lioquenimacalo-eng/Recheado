@@ -1,14 +1,13 @@
 
 import Layout from '../components/Layout';
-
-          import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+ import { Link } from "react-router-dom";
 
 
 
 
 
 import React from "react";
-import { motion } from "framer-motion";
 import {
   UtensilsCrossed,
   Zap,

@@ -7,7 +7,7 @@ const Produtos = [
     preco: 1500,
     moeda: "KZ",
     descricao: "Sandes simples do Recheado",
-    imagem: "./public/1785077259258_1.webp",
+    imagem: "/1785077259258_1.webp",
     slug: "sandes-simples",
     disponivel: true,
     estoque: 999
@@ -19,7 +19,7 @@ const Produtos = [
     preco: 2000,
     moeda: "KZ",
     descricao: "Sandes com recheio extra",
-    imagem: "./public/comFrango.webp",
+    imagem: "/comFrango.webp",
     slug: "pede-mais",
     disponivel: true,
     estoque: 999
@@ -31,7 +31,7 @@ const Produtos = [
     preco: 1900,
     moeda: "KZ",
     descricao: "Sandes com bacon crocante",
-    imagem: "./public/SandesBaicon.webp",
+    imagem: "/SandesBaicon.webp",
     slug: "sandes-com-bacon",
     disponivel: true,
     estoque: 999
@@ -43,7 +43,7 @@ const Produtos = [
     preco: 1900,
     moeda: "KZ",
     descricao: "Sandes com queijo derretido",
-    imagem: "./public/SandesQueijo.webp",
+    imagem: "/SandesQueijo.webp",
     slug: "sandes-com-queijo",
     disponivel: true,
     estoque: 999
@@ -56,7 +56,7 @@ const Produtos = [
     preco: 2000,
     moeda: "KZ",
     descricao: "Hamburguer simples",
-    imagem: "./public/HamvurgerSimples.webp",
+    imagem: "/HamvurgerSimples.webp",
     slug: "hamburguer-simples",
     disponivel: true,
     estoque: 999
@@ -68,7 +68,7 @@ const Produtos = [
     preco: 2500,
     moeda: "KZ",
     descricao: "Hamburguer composto completo",
-    imagem: "./public/humburgT.webp",
+    imagem: "/humburgT.webp",
     slug: "hamburguer-composto",
     disponivel: true,
     estoque: 999
@@ -81,7 +81,7 @@ const Produtos = [
     preco: 2000,
     moeda: "KZ",
     descricao: "Fahita recheada",
-    imagem: "./public/Fahita.webp",
+    imagem: "/Fahita.webp",
     slug: "fahita",
     disponivel: true,
     estoque: 999
@@ -94,7 +94,7 @@ const Produtos = [
     preco: 3000,
     moeda: "KZ",
     descricao: "X-Tudo completo",
-    imagem: "./public/x-tudo.webp",
+    imagem: "/x-tudo.webp",
     slug: "x-tudo",
     disponivel: true,
     estoque: 999
@@ -106,7 +106,7 @@ const Produtos = [
     preco: 3000,
     moeda: "KZ",
     descricao: "Sandes Recheado especial",
-    imagem: "./public/brincslhao.webp",
+    imagem: "/brincslhao.webp",
     slug: "recheado-especial",
     disponivel: true,
     estoque: 999
