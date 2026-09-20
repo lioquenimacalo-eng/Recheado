@@ -106,7 +106,7 @@ const Produtos = [
     preco: 3000,
     moeda: "KZ",
     descricao: "Sandes Recheado especial",
-    imagem: "/brincslhao.webp",
+    imagem: "/RECHEADO.webp",
     slug: "recheado-especial",
     disponivel: true,
     estoque: 999
@@ -120,7 +120,7 @@ const Produtos = [
     moeda: "KZ",
     descricao: "Rissóis - 3 por 500 KZ",
     precoPromocao: { qtd: 3, preco: 500 },
-    imagem: "",
+    imagem: "/rissois.webp",
     slug: "rissois",
     disponivel: true,
     estoque: 999
@@ -132,7 +132,7 @@ const Produtos = [
     preco: 1000,
     moeda: "KZ",
     descricao: "Dose de batata frita",
-    imagem: "",
+    imagem: "/Batatas.webp",
     slug: "dose-de-batata",
     disponivel: true,
     estoque: 999
@@ -145,7 +145,7 @@ const Produtos = [
     preco: 2000,
     moeda: "KZ",
     descricao: "Magoga tradicional",
-    imagem: "",
+    imagem: "/magoga2.webp",
     slug: "magoga-tradicional",
     disponivel: true,
     estoque: 999
