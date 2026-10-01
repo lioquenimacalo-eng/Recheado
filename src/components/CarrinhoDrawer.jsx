@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   X,
   Plus,
@@ -19,6 +19,33 @@ function CarrinhoDrawer({ isOpen, onClose }) {
     (state) => state.atualizarQuantidade
   );
   const limparCarrinho = useCartStore((state) => state.limparCarrinho);
+
+  // Evita que o pedido seja enviado duas vezes (duplo toque, timeout + resposta, etc.)
+  const enviandoRef = useRef(false);
+
+  // ==========================================
+  // RESET AO VOLTAR DO WHATSAPP (Safari / iOS)
+  // O Safari guarda a página em cache (bfcache). Ao voltar do WhatsApp,
+  // o estado "localizando" poderia continuar preso. Aqui repomos tudo.
+  // ==========================================
+  useEffect(() => {
+    function aoMostrarPagina() {
+      enviandoRef.current = false;
+      setLocalizando(false);
+    }
+
+    function aoMudarVisibilidade() {
+      if (document.visibilityState === "visible") aoMostrarPagina();
+    }
+
+    window.addEventListener("pageshow", aoMostrarPagina);
+    document.addEventListener("visibilitychange", aoMudarVisibilidade);
+
+    return () => {
+      window.removeEventListener("pageshow", aoMostrarPagina);
+      document.removeEventListener("visibilitychange", aoMudarVisibilidade);
+    };
+  }, []);
 
   // ==========================================
   // TOTAL DE ITENS
@@ -44,14 +71,20 @@ function CarrinhoDrawer({ isOpen, onClose }) {
   }
 
   // ==========================================
-  // FINALIZAR PEDIDO (versão melhorada)
+  // FINALIZAR PEDIDO
+  // Funciona no Safari/iOS e NÃO depende da localização:
+  // - não abre abas em branco (window.open)
+  // - a localização tem tempo limite curto
+  // - qualquer falha continua o pedido sem localização
   // ==========================================
   function finalizarPedido() {
     if (items.length === 0) return;
+    if (enviandoRef.current) return;
+    enviandoRef.current = true;
 
     const numeroWhatsApp = "244957992534";
 
-    // Monta a lista de produtos uma única vez
+    // Monta a lista de produtos (sempre igual)
     const listaProdutos = items
       .map((item) => {
         const quantidade = item.quantity || 0;
@@ -60,8 +93,8 @@ function CarrinhoDrawer({ isOpen, onClose }) {
       })
       .join("\n");
 
-    // Função que envia a mensagem (com ou sem localização)
-    function enviarMensagem(linkLocalizacao, latitude, longitude, novaAba) {
+    // Monta a mensagem e abre o WhatsApp
+    function enviarParaWhatsApp(linkLocalizacao, latitude, longitude) {
       const blocoLocalizacao = linkLocalizacao
         ? `Localização:\n${linkLocalizacao}\n\nLatitude: ${latitude}\nLongitude: ${longitude}`
         : `⚠️ Localização não disponível. Por favor, envie a sua morada por aqui.`;
@@ -82,49 +115,70 @@ ${blocoLocalizacao}
         mensagem
       )}`;
 
-      if (novaAba) {
-        novaAba.location.href = urlWhatsApp;
-      } else {
-        window.open(urlWhatsApp, "_blank", "noopener,noreferrer");
-      }
-
       setLocalizando(false);
+
+      // Método mais confiável em Safari / iOS / PWA:
+      // navega a página atual. O link universal do WhatsApp
+      // é entregue ao app nativo (ou abre o WhatsApp Web no desktop).
+      window.location.href = urlWhatsApp;
+
+      // Liberta o botão caso o utilizador volte sem o Safari recarregar a página
+      setTimeout(() => {
+        enviandoRef.current = false;
+      }, 1500);
     }
 
-    // Sem suporte a geolocalização → envia mesmo assim
+    // Sem suporte a geolocalização → envia logo
     if (!navigator.geolocation) {
-      enviarMensagem(null, null, null, null);
+      enviarParaWhatsApp(null, null, null);
       return;
-    }
-
-    // Abre a aba ainda dentro do clique (importante no iPhone)
-    const novaAba = window.open("", "_blank");
-    if (novaAba) {
-      novaAba.document.write("A carregar o pedido...");
     }
 
     setLocalizando(true);
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    // Tempo limite curto para não prender o utilizador
+    const TIMEOUT_MS = 5000;
+    let resolvido = false;
+
+    // Garante que só envia UMA vez, venha de onde vier
+    function concluir(position) {
+      if (resolvido) return;
+      resolvido = true;
+
+      if (position && position.coords) {
         const { latitude, longitude } = position.coords;
         const linkLocalizacao = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        enviarMensagem(linkLocalizacao, latitude, longitude, novaAba);
-      },
-      // Erro de localização → envia mesmo assim
-      (error) => {
-        console.error("Erro de geolocalização:", error);
-        if (error.code === 1) {
-          console.warn("Localização negada pelo utilizador.");
-        }
-        enviarMensagem(null, null, null, novaAba);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
+        enviarParaWhatsApp(linkLocalizacao, latitude, longitude);
+      } else {
+        enviarParaWhatsApp(null, null, null);
       }
-    );
+    }
+
+    // Plano B: se o navegador não responder (comum no iOS quando o aviso
+    // de permissão fica aberto), segue sem localização.
+    const timer = setTimeout(() => concluir(null), TIMEOUT_MS + 500);
+
+    try {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          clearTimeout(timer);
+          concluir(position);
+        },
+        () => {
+          // negada, indisponível, timeout ou qualquer outro erro
+          clearTimeout(timer);
+          concluir(null);
+        },
+        {
+          enableHighAccuracy: false, // mais rápido e estável no iPhone
+          timeout: TIMEOUT_MS,
+          maximumAge: 60000, // aceita uma posição recente em cache
+        }
+      );
+    } catch (erro) {
+      clearTimeout(timer);
+      concluir(null);
+    }
   }
 
   return (
