@@ -82,7 +82,7 @@ function CarrinhoDrawer({ isOpen, onClose }) {
     if (enviandoRef.current) return;
     enviandoRef.current = true;
 
-    const numeroWhatsApp = "244957992534";
+    const numeroWhatsApp = "244931555634";
 
     // Monta a lista de produtos (sempre igual)
     const listaProdutos = items
